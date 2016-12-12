@@ -6,6 +6,10 @@
 #include <fstream>
 #include <string>
 
+#include "Images\Color.h"
+#include "Images\RGBImage.h"
+
+
 // Function prototypes
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
@@ -66,6 +70,10 @@ const char* fragmentShaderSource = "#version 330 core\n"
 
 int main()
 {
+	RGBImage image;
+	
+	image.loadFromDisk("Loading_Test/Images/Test_Circle.bmp");
+
 	glfwInit();
 	//alle wichtigen optionen für GLEW
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);

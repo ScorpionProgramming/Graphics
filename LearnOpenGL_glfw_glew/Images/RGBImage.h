@@ -11,6 +11,14 @@
 //DWORD = unsigned long		| 4 bytes | 32 bit
 //LONG  = unsigned long		| 4 bytes | 32 bit
 //INT	= unsigned int		| 4 bytes | 32 bit
+typedef struct {
+	unsigned short  bfType;
+	unsigned int	bfSize;
+	unsigned short  bfReserved1;
+	unsigned short  bfReserved2;
+	unsigned int	bfOffBits;
+}bmp_file_header;
+
 typedef struct{
 	unsigned int	biSize;
 	unsigned int	biWidth;
@@ -25,17 +33,11 @@ typedef struct{
 	unsigned int	biClrImportant;
 } bmp_info_header;
 
-typedef struct {
-	unsigned short  bfType;
-	unsigned int	bfSize;
-	unsigned short  bfReserved1;
-	unsigned short  bfReserved2;
-	unsigned int	bfOffBits;
-}bmp_file_header;
 
 class RGBImage
 {
 public:
+	RGBImage();
 	RGBImage(unsigned int  Width, unsigned int Height);
 	~RGBImage();
 	void setPixelColor(unsigned int x, unsigned int y, const Color& c);

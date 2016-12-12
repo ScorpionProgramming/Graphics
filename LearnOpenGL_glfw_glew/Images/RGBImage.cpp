@@ -7,6 +7,12 @@ RGBImage::RGBImage(unsigned int Width, unsigned int Height)
 	m_Image = new Color[Width * Height];
 }
 
+RGBImage::RGBImage()
+{
+	
+}
+
+
 RGBImage::~RGBImage()
 {
 	delete m_Image;
@@ -106,7 +112,60 @@ bool RGBImage::saveToDisk(const char * Filename)
 
 bool RGBImage::loadFromDisk(const char * Filename)
 {
-	//todo
-	return false;
+	/*
+	http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/
+
+	https://de.wikipedia.org/wiki/Windows_Bitmap
+	*/
+	FILE *file = fopen(Filename, "rb");
+	if (!file) {
+		std::cout << "Bild konnte nicht geöffnet werden" << std::endl;
+		return false;
+	}
+	unsigned char bfheader[54];
+	unsigned int dataPos;     // Position in the file where the actual data begins
+	unsigned int width, height;
+	unsigned int imageSize;   // = width*height*3
+							    
+	unsigned char *rgbdata; // Actual RGB data
+
+	if (fread(bfheader, 1, 54, file) != 54) {
+		std::cout << "Keine BMP - Datei" << std::endl;
+		return false;
+	}
+
+	if (bfheader[0] != 'B' || bfheader[1] != 'M') {
+		std::cout << "Keine BMP - Datei" << std::endl;
+		return 0;
+	}
+
+	dataPos = bfheader[10];
+	width = bfheader[18];
+	height = bfheader[22];
+	imageSize = bfheader[34];
+
+	if (imageSize == 0) {
+		imageSize = width * height * 3; // 3 für jede pixelfarbe rot grün blau
+	}
+	if (dataPos == 0) {
+		dataPos = 54;
+	}
+
+	//create Buffer
+	rgbdata = new unsigned char[imageSize];
+
+	fread(rgbdata, 1, imageSize, file);
+
+	//wie bekomm ich die daten jetzt sichtbar gemacht
+	for (int x = 0; x < width; x++) {
+		for (int y = 0; y < height; y++) {
+			std::cout << "[0]" <<(int)rgbdata[x * y+0] << " "; //  |
+			std::cout << "[1]" <<(int)rgbdata[x * y+1] << " "; //   } Pixel Farbe
+			std::cout << "[2]" <<(int)rgbdata[x * y+2] << " "; //  |
+		}
+		std::cout << std::endl;
+	}
+	fclose;
+	return true;
 }
 
