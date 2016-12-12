@@ -24,12 +24,18 @@
     <ClCompile Include="Images\RGBImage.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Math\Vector3f.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Images\Color.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Images\RGBImage.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vector3f.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

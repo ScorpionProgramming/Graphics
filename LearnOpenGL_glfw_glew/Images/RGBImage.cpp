@@ -104,3 +104,9 @@ bool RGBImage::saveToDisk(const char * Filename)
 	return true;
 }
 
+bool RGBImage::loadFromDisk(const char * Filename)
+{
+	//todo
+	return false;
+}
+

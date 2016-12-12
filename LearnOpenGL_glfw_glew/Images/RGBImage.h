@@ -41,6 +41,7 @@ public:
 	void setPixelColor(unsigned int x, unsigned int y, const Color& c);
 	const Color& getPixelColor(unsigned int x, unsigned int y) const;
 	bool saveToDisk(const char* Filename);
+	bool loadFromDisk(const char* Filename);
 	unsigned int width() const;
 	unsigned int height() const;
 
