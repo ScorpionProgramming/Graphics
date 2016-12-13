@@ -156,14 +156,21 @@ bool RGBImage::loadFromDisk(const char * Filename)
 
 	fread(rgbdata, 1, imageSize, file);
 
-	//wie bekomm ich die daten jetzt sichtbar gemacht
+	//So sollte das Klappen.
+	m_Width = width;
+	m_Height = height;
+	m_Image = new Color[width * height];
+
 	for (int x = 0; x < width; x++) {
 		for (int y = 0; y < height; y++) {
-			std::cout << "[0]" <<(int)rgbdata[x * y+0] << " "; //  |
-			std::cout << "[1]" <<(int)rgbdata[x * y+1] << " "; //   } Pixel Farbe
-			std::cout << "[2]" <<(int)rgbdata[x * y+2] << " "; //  |
+			//RGB farben
+			setPixelColor(x, y, Color((int)rgbdata[x * y + 0], (int)rgbdata[x * y + 1], (int)rgbdata[x * y + 2]));
+			/* 
+			r: (int)rgbdata[x * y+0]
+			g: (int)rgbdata[x * y+1]
+			b:(int)rgbdata[x * y+2]
+			*/
 		}
-		std::cout << std::endl;
 	}
 	fclose;
 	return true;
