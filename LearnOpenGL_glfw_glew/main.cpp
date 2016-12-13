@@ -9,6 +9,9 @@
 #include "Images\Color.h"
 #include "Images\RGBImage.h"
 
+#include "Math\Matrix4f.h"
+#include "Math\Vector3f.h"
+#include "Math\Vector4f.h"
 
 // Function prototypes
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
@@ -70,10 +73,19 @@ const char* fragmentShaderSource = "#version 330 core\n"
 
 int main()
 {
+	/*
 	RGBImage image;
 	
 	image.loadFromDisk("Loading_Test/Images/Test_Circle.bmp");
 	image.saveToDisk("Loading_Test/Images/Test_Circle_write.bmp");
+	*/
+	Matrix4f mat = Matrix4f(
+		1, 0, 0, 4,
+		0, 1, 0, 8, 
+		0, 0, 1, 12,
+		0, 0, 0, 1
+	);
+	std::cout << mat.toString() << std::endl;
 
 	glfwInit();
 	//alle wichtigen optionen für GLEW
