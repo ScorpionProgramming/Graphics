@@ -56,16 +56,19 @@ GLuint indices[] = { // Note that we start from 0!
 const char* vertexShaderSource = //GLchar* war vorher dadrin
 "#version 330 core\n"
 "layout (location = 0) in vec3 position;\n"
+"out vec4 vertexColor;\n"
 "void main()\n"
 "{\n"
-"gl_Position = vec4(position.x, position.y, position.z, 1.0);\n"
+"gl_Position = vec4(position, 1.0);\n"
+"vertexColor = vec4(0.5f, 0.0f, 0.0f, 1.0f);"
 "}\0";
 
 const char* fragmentShaderSource = "#version 330 core\n"
 "out vec4 color;\n"
+"uniform vec4 uniColor;\n"
 "void main()\n"
 "{\n"
-"color = vec4(0.2f, 0.6f, 0.2f, 1.0f);\n"
+"color = uniColor;\n"
 "}\n\0";
 
 int main()
@@ -113,7 +116,7 @@ int main()
 	int width, height;
 	glViewport(0, 0, 800, 600);
 	glfwGetFramebufferSize(window, &width, &height);
-	
+	glfwSwapInterval(0);
 	std::cout << "Size: "<< width << " " << height << std::endl;
 
 	/*
@@ -201,8 +204,11 @@ int main()
 	*/
 	std::cout << " sizeof(vertices)/sizeof(GLfloat)/3 = " << sizeof(vertices) / sizeof(GLfloat) / 3 << std::endl;
 	//main loop (game loop)
+	GLfloat delta = 0;
 	while (!glfwWindowShouldClose(window))
 	{
+		GLfloat timeValue = glfwGetTime();
+		GLfloat currTime = timeValue;
 		//Prüfen und events aufrufen
 		glfwPollEvents();
 
@@ -210,15 +216,27 @@ int main()
 		glClearColor(0.1f, 0.3f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+
+		GLfloat greenValue = (sin(timeValue) + 0.5);
+		GLfloat redValue = (cos(timeValue) + 0.5);
+		GLint vertexColorLocation = glGetUniformLocation(shaderProgram, "uniColor");
+
+		std::cout << "TimeValue: " << 1/delta << std::endl;
 		//drawTriangle
 		glUseProgram(shaderProgram);
+
+		glUniform4f(vertexColorLocation, redValue, greenValue, 0.0f, 1.0f);
+
 		glBindVertexArray(VAO);
 		//glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / sizeof(GLfloat) / 3);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 
+		
 		//Swap buffers
 		glfwSwapBuffers(window);
+
+		delta = glfwGetTime() - currTime;
 	}
 	// speicher für die vao und vbo wieder freigeben
 	glDeleteVertexArrays(1, &VAO);
