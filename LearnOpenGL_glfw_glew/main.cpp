@@ -73,10 +73,12 @@ const char* fragmentShaderSource = "#version 330 core\n"
 
 int main()
 {
+	/*
 	RGBImage image;
 	
 	image.loadFromDisk("Loading_Test/Images/Test_Circle.bmp");
 	image.saveToDisk("Loading_Test/Images/Test_Circle_write.bmp");
+	*/
 
 	glfwInit();
 	//alle wichtigen optionen für GLEW
