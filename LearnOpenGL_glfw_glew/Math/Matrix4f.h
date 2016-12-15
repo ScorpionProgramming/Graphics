@@ -25,6 +25,9 @@ public:
 				float i, float j, float k, float l,
 				float m, float n, float o, float p	);
 
+	/*Muss eventuell wieder rausgepatched werden*/
+	void operator=(const Matrix4f mat);
+
 	/*Matrix x Matrix = Matrix*/
 	Matrix4f operator*(const Matrix4f mat) const;
 	/*Matrix x Vector = Vector*/

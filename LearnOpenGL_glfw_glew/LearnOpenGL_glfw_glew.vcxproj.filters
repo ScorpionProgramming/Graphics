@@ -33,6 +33,9 @@
     <ClCompile Include="Math\Matrix4f.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Math\Vector2f.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Images\Color.h">
@@ -48,6 +51,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Math\Matrix4f.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vector2f.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
