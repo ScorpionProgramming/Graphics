@@ -1,7 +1,5 @@
 #include "Vector3f.h"
 
-
-
 Vector3f::Vector3f()
 {
 	this->x = 0;
