@@ -9,6 +9,10 @@
 #include "Images\Color.h"
 #include "Images\RGBImage.h"
 
+#include "Math\Vector2f.h"
+#include "Math\Vector3f.h"
+#include "Math\Vector4f.h"
+#include "Math\Matrix4f.h"
 
 // Function prototypes
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
@@ -73,12 +77,17 @@ const char* fragmentShaderSource = "#version 330 core\n"
 
 int main()
 {
-	/*
-	RGBImage image;
 	
-	image.loadFromDisk("Loading_Test/Images/Test_Circle.bmp");
-	image.saveToDisk("Loading_Test/Images/Test_Circle_write.bmp");
-	*/
+	//RGBImage image;
+	
+	//image.loadFromDisk("Loading_Test/Images/Test_Circle.bmp");
+	//image.saveToDisk("Loading_Test/Images/Test_Circle_write.bmp");
+	
+	//image.loadFromDisk("Loading_Test/Images/Test2.bmp");
+	//image.saveToDisk("Loading_Test/Images/Test_write2.bmp");
+
+	//image.loadFromDisk("Loading_Test/Images/WTF.bmp");
+	//image.saveToDisk("Loading_Test/Images/WTF_write.bmp");
 
 	glfwInit();
 	//alle wichtigen optionen für GLEW
@@ -219,7 +228,7 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-		GLfloat greenValue = (sin(timeValue) + 0.5);
+		GLfloat blueValue = (sin(timeValue) + 0.5);
 		GLfloat redValue = (cos(timeValue) + 0.5);
 		GLint vertexColorLocation = glGetUniformLocation(shaderProgram, "uniColor");
 
@@ -227,7 +236,7 @@ int main()
 		//drawTriangle
 		glUseProgram(shaderProgram);
 
-		glUniform4f(vertexColorLocation, redValue, greenValue, 0.0f, 1.0f);
+		glUniform4f(vertexColorLocation, redValue, 0.0f, blueValue, 1.0f);
 
 		glBindVertexArray(VAO);
 		//glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / sizeof(GLfloat) / 3);

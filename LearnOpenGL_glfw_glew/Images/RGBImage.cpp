@@ -112,6 +112,7 @@ bool RGBImage::saveToDisk(const char * Filename)
 
 bool RGBImage::loadFromDisk(const char * Filename)
 {
+	//TODO Bumpmap Images Header Dateien ausgeben
 	/*
 	http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/
 
@@ -164,12 +165,12 @@ bool RGBImage::loadFromDisk(const char * Filename)
 	for (int x = 0; x < width; x++) {
 		for (int y = 0; y < height; y++) {
 			//RGB farben
-			setPixelColor(x, y, Color((int)rgbdata[x * y + 0], (int)rgbdata[x * y + 1], (int)rgbdata[x * y + 2]));
-			/* 
-			r: (int)rgbdata[x * y+0]
-			g: (int)rgbdata[x * y+1]
-			b:(int)rgbdata[x * y+2]
-			*/
+			//Bild wird von "unten nach Oben" interpretiert
+			setPixelColor(x, height-(y+1), //wenn man ohne -(y+1) dann steht Bild Kopf! 
+				Color(convertColorChannel((int)rgbdata[(x + y*width) * 3 + 2]),
+					  convertColorChannel((int)rgbdata[(x + y*width) * 3 + 1]),
+					  convertColorChannel((int)rgbdata[(x + y*width) * 3 + 0])
+				));
 		}
 	}
 	fclose;

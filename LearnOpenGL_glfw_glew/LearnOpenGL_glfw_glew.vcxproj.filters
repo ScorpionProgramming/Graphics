@@ -18,9 +18,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="Images\Color.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="Images\RGBImage.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -34,6 +31,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Math\Vector2f.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Images\Color.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
