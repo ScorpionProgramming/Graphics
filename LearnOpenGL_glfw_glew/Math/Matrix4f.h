@@ -2,6 +2,7 @@
 #include "Vector4f.h"
 #include <sstream>
 #include <string>
+
 /*
 	http://www.opengl-tutorial.org/beginners-tutorials/tutorial-3-matrices/
 
@@ -15,6 +16,8 @@
 class Matrix4f
 {
 public:
+	//TODO: hinzufügen von  Einheitsmatrix, Skalierungsmatrix und Drehmatrix
+
 	float a, b, c, d, 
 		  e, f, g, h,
 		  i, j, k, l,
