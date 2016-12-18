@@ -17,24 +17,6 @@
 // Function prototypes
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
-/*GLfloat vertices[] = { -0.5f,-0.5f, 0.0f,
-						0.5f, -0.5f, 0.0f,
-						0.0f, 0.5f, 0.0f 
-					};
-					*/
-/*
-GLfloat vertices[] = {
-	// First triangle
-	0.5f, 0.5f, 0.0f, // Top Right
-	0.5f, -0.5f, 0.0f, // Bottom Right
-	-0.5f, 0.5f, 0.0f, // Top Left
-	// Second triangle
-	0.5f, -0.5f, 0.0f, // Bottom Right
-	-0.5f, -0.5f, 0.0f, // Bottom Left
-	-0.5f, 0.5f, 0.0f // Top Left
-};
-*/
-
 GLfloat vertices[] = {
 	0.5f, 0.5f, 0.0f, // Top Right
 	0.5f, -0.5f, 0.0f, // Bottom Right
@@ -45,10 +27,6 @@ GLfloat vertices[] = {
 GLuint indices[] = { // Note that we start from 0!
 	0, 1, 3, // First Triangle
 	1, 2, 3 // Second Triangle
-	//0,1,4,
-	//1,4,2,
-	//2,3,4,
-	//3,0,4
 };
 
 //-------------shader laden einbauen-------------------

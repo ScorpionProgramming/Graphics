@@ -36,6 +36,9 @@
     <ClCompile Include="Images\Color.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Images\Noise.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Images\Color.h">
@@ -54,6 +57,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Math\Vector2f.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Images\Noise.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

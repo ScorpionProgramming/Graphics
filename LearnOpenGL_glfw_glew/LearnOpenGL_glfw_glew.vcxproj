@@ -123,6 +123,7 @@
     <ClCompile Include="Math\Vector4f.cpp" />
     <ClCompile Include="Math\Matrix4f.cpp" />
     <ClCompile Include="Math\Vector2f.cpp" />
+    <ClCompile Include="Images\Noise.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Images\Color.h" />
@@ -131,6 +132,7 @@
     <ClInclude Include="Math\Vector4f.h" />
     <ClInclude Include="Math\Matrix4f.h" />
     <ClInclude Include="Math\Vector2f.h" />
+    <ClInclude Include="Images\Noise.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
