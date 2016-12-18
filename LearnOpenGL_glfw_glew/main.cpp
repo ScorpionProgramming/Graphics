@@ -5,6 +5,7 @@
 //testweise
 #include <fstream>
 #include <string>
+#include <iostream>
 
 #include "Images\Color.h"
 #include "Images\RGBImage.h"
@@ -13,6 +14,8 @@
 #include "Math\Vector3f.h"
 #include "Math\Vector4f.h"
 #include "Math\Matrix4f.h"
+
+#include "Shader\Shader.h"
 
 // Function prototypes
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
@@ -67,13 +70,14 @@ const char* vertexShaderSource = //GLchar* war vorher dadrin
 "vertexColor = vec4(0.5f, 0.0f, 0.0f, 1.0f);"
 "}\0";
 
-const char* fragmentShaderSource = "#version 330 core\n"
+const char* fragmentShaderSource = 
+"#version 330 core\n"
 "out vec4 color;\n"
 "uniform vec4 uniColor;\n"
 "void main()\n"
 "{\n"
 "color = uniColor;\n"
-"}\n\0";
+"}\0";
 
 int main()
 {
@@ -130,9 +134,15 @@ int main()
 	glfwSwapInterval(0);
 	std::cout << "Size: "<< width << " " << height << std::endl;
 
+	std::cout << "\n\n" << std::endl;
+
+	Shader shader = Shader("Shader/ShaderSource/shaderTest.vertex", "Shader/ShaderSource/shaderTest.fragment");
+
+	GLuint shaderProgram = shader.getProgram();
+
 	/*
 	#---------------------------------------Shader-BEGINN-------------------------------------------------------------------------------------------------------------------#
-	*/
+	
 
 	//VERTEX_SHADER
 	//deklaration und initialisierung des shaders
@@ -143,9 +153,8 @@ int main()
 	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
 	//shader kompilieren
 	glCompileShader(vertexShader);
-	/*
-	* Prüfung ob die Compilation erfolgreich durchgelaufen ist.
-	*/
+	
+	//Prüfung ob die Compilation erfolgreich durchgelaufen ist.
 	GLint success;
 	GLchar infoLog[512];
 	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
@@ -187,6 +196,11 @@ int main()
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
+	
+	#---------------------------------------Shader-ENDE---------------------------------------------------------------------------------------------------------------------#
+	*/
+
+
 
 	//Buffer objekt erstellen
 	GLuint VBO, VAO, EBO;
@@ -210,9 +224,8 @@ int main()
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-	/*
-	#---------------------------------------Shader-ENDE---------------------------------------------------------------------------------------------------------------------#
-	*/
+
+
 	std::cout << " sizeof(vertices)/sizeof(GLfloat)/3 = " << sizeof(vertices) / sizeof(GLfloat) / 3 << std::endl;
 	//main loop (game loop)
 	GLfloat delta = 0;
@@ -232,7 +245,7 @@ int main()
 		GLfloat redValue = (cos(timeValue) + 0.5);
 		GLint vertexColorLocation = glGetUniformLocation(shaderProgram, "uniColor");
 
-		std::cout << "TimeValue: " << 1/delta << std::endl;
+		//std::cout << "TimeValue: " << 1/delta << std::endl;
 		//drawTriangle
 		glUseProgram(shaderProgram);
 

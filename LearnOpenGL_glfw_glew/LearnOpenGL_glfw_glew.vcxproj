@@ -123,6 +123,7 @@
     <ClCompile Include="Math\Vector4f.cpp" />
     <ClCompile Include="Math\Matrix4f.cpp" />
     <ClCompile Include="Math\Vector2f.cpp" />
+    <ClCompile Include="Shader\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Images\Color.h" />
@@ -131,6 +132,11 @@
     <ClInclude Include="Math\Vector4f.h" />
     <ClInclude Include="Math\Matrix4f.h" />
     <ClInclude Include="Math\Vector2f.h" />
+    <ClInclude Include="Shader\Shader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shader\ShaderSource\shaderTest.fragment" />
+    <None Include="Shader\ShaderSource\shaderTest.vertex" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
