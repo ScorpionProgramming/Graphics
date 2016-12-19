@@ -21,6 +21,7 @@ public:
 	~Shader();
 
 private:
-	const char* load(std::string dateipfad);
+	std::string load(std::string dateipfad);
+	std::string loadNeu(char* dateipfad);
 };
 

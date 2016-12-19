@@ -2,8 +2,29 @@
 
 Shader::Shader(const GLchar * vertexShaderPath, const GLchar * fragmentShaderPath)
 {
-	const char* vertexShaderSource = load(vertexShaderPath);
-	const char* fragmentShaderSource = load(fragmentShaderPath);
+	const char* vertexShaderSource = load(vertexShaderPath).c_str();
+	const char* fragmentShaderSource = load(fragmentShaderPath).c_str();
+
+	/*
+	const char* vertexShaderSource = //GLchar* war vorher dadrin
+		"#version 330 core\n"
+		"layout (location = 0) in vec3 position;\n"
+		"out vec4 vertexColor;\n"
+		"void main()\n"
+		"{\n"
+		"gl_Position = vec4(position, 1.0);\n"
+		"vertexColor = vec4(0.5f, 0.0f, 0.0f, 1.0f);"
+		"}\0";
+
+	const char* fragmentShaderSource =
+		"#version 330 core\n"
+		"out vec4 color;\n"
+		"uniform vec4 uniColor;\n"
+		"void main()\n"
+		"{\n"
+		"color = uniColor;\n"
+		"}\0";
+		*/
 
 	//VERTEX_SHADER
 	//deklaration und initialisierung des shaders
@@ -73,10 +94,9 @@ Shader::~Shader()
 {
 }
 
-const char * Shader::load(std::string dateipfad)
+std::string Shader::load(std::string dateipfad)
 {
 	std::stringstream ss;
-	std::string zeile;
 	std::ifstream datei(dateipfad);
 
 	if (!datei) {
@@ -87,11 +107,37 @@ const char * Shader::load(std::string dateipfad)
 		Datei zeileweise auslesen und hinter jeder Zeile einen Zeilenumbruch schreiben.
 		*/
 		while(datei){
+			std::string zeile;
 			std::getline(datei, zeile);
-			ss << zeile << "\n";
+			ss << zeile;
 		}
 	}
 	datei.close();
 
-	return ss.str().c_str();
+	std::string ausgabe = ss.str();
+
+	std::cout << ss.str() << std::endl;
+
+	return ausgabe.c_str();
+}
+
+std::string Shader::loadNeu(char * dateipfad)
+{
+	std::string shaderCode;
+	std::ifstream datei(dateipfad, std::ios::in);
+
+	if (!datei.good()) {
+		std::cout << dateipfad << " konnte nicht geöffnet werden." << std::endl;
+		std::terminate();
+	}
+
+	datei.seekg(0, std::ios::end);
+	shaderCode.resize((unsigned int)datei.tellg());
+	datei.seekg(0, std::ios::beg);
+	datei.read(&shaderCode[0], shaderCode.size());
+	datei.close();
+
+	std::cout << shaderCode << std::endl;
+
+	return shaderCode;
 }
