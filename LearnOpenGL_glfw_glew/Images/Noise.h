@@ -1,6 +1,7 @@
 #pragma once
 #include <math.h>
-#include "Images/Color.h"
+#include "Color.h"
+#include "RGBImage.h"
 class Noise
 {
 public:
