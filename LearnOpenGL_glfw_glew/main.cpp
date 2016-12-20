@@ -33,38 +33,12 @@ GLuint indices[] = { // Note that we start from 0!
 	1, 2, 3 // Second Triangle
 };
 
-//-------------shader laden einbauen-------------------
-//const GLchar* fragmentShaderSource ="Shader/myFirstShader.fragment";
-//const GLchar* vertexShaderSource ="Shader/myFirstShader.vertex";
-//-----------------------------------------------------
-
-// Shaders 
-const char* vertexShaderSource = //GLchar* war vorher dadrin
-"#version 330 core\n"
-"layout (location = 0) in vec3 position;\n"
-"out vec4 vertexColor;\n"
-"void main()\n"
-"{\n"
-"gl_Position = vec4(position, 1.0);\n"
-"vertexColor = vec4(0.5f, 0.0f, 0.0f, 1.0f);"
-"}\0";
-
-const char* fragmentShaderSource = 
-"#version 330 core\n"
-"out vec4 color;\n"
-"uniform vec4 uniColor;\n"
-"void main()\n"
-"{\n"
-"color = uniColor;\n"
-"}\0";
-
 int main()
 {
+	RGBImage image;
 	
-	//RGBImage image;
-	
-	//image.loadFromDisk("Loading_Test/Images/Test_Circle.bmp");
-	//image.saveToDisk("Loading_Test/Images/Test_Circle_write.bmp");
+	image.loadFromDisk("Loading_Test/Images/DoorsMedieval.bmp");
+	image.saveToDisk("Loading_Test/Images/DoorsMedieval_write.bmp");
 	
 	//image.loadFromDisk("Loading_Test/Images/Test2.bmp");
 	//image.saveToDisk("Loading_Test/Images/Test_write2.bmp");

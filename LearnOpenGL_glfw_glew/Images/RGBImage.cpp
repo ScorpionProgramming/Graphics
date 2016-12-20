@@ -12,7 +12,6 @@ RGBImage::RGBImage()
 	
 }
 
-
 RGBImage::~RGBImage()
 {
 	delete m_Image;
@@ -29,7 +28,6 @@ const Color & RGBImage::getPixelColor(unsigned int x, unsigned int y) const
 	if (x >= 0 && x <= m_Width-1 && y >= 0 && y < m_Height)
 		return m_Image[ x + y * m_Width];
 }
-
 
 unsigned int RGBImage::width() const
 {
@@ -62,7 +60,6 @@ bool RGBImage::saveToDisk(const char * Filename)
 	memset(img, 0, sizeof(img));
 
 	int x, y;
-
 	for (x = 0; x<w; x++)
 	{
 		for (y = 0; y<h; y++)
@@ -74,7 +71,6 @@ bool RGBImage::saveToDisk(const char * Filename)
 			img[(x + y*w) * 3 + 0] = this->convertColorChannel(c.B);
 		}
 	}
-
 	unsigned char bmpfileheader[14] = { 'B', 'M', 0, 0, 0, 0, 0, 0, 0, 0, 54, 0, 0, 0 };
 	unsigned char bmpinfoheader[40] = { 40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 24, 0 };
 	unsigned char bmppad[3] = { 0, 0, 0 };
@@ -103,10 +99,8 @@ bool RGBImage::saveToDisk(const char * Filename)
 		fwrite(img + (w*(h - i - 1) * 3), 3, w, f);
 		fwrite(bmppad, 1, (4 - (w * 3) % 4) % 4, f);
 	}
-
 	fclose(f);
 	free(img);
-
 	return true;
 }
 
@@ -161,7 +155,7 @@ bool RGBImage::loadFromDisk(const char * Filename)
 	m_Width = width;
 	m_Height = height;
 	m_Image = new Color[width * height];
-
+	
 	for (int x = 0; x < width; x++) {
 		for (int y = 0; y < height; y++) {
 			//RGB farben

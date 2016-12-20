@@ -1,11 +1,11 @@
 #include "Shader.h"
 
-Shader::Shader(const GLchar * vertexShaderPath, const GLchar * fragmentShaderPath)
+Shader::Shader(const char * vertexShaderPath, const char * fragmentShaderPath)
 {
 	//vertex shader:
 	std::string vertexShaderString = load(vertexShaderPath);
 	const char* vertexShaderSource = vertexShaderString.c_str();
-	GLint vertexShaderLength = vertexShaderString.size();
+	int vertexShaderLength = vertexShaderString.size();
 
 	//fragment shader:
 	std::string fragmentShaderString = load(fragmentShaderPath);

@@ -15,13 +15,12 @@ public:
 	//SHADER Bauen
 	GLuint shaderProgram;
 
-	Shader(const GLchar* vertexShaderPath, const GLchar* fragmentShaderPath);
+	Shader(const char* vertexShaderPath, const char* fragmentShaderPath);
 	void Use();
 	GLuint getProgram();
 	~Shader();
 
 private:
 	std::string load(std::string dateipfad);
-	std::string loadNeu(char* dateipfad);
 };
 
