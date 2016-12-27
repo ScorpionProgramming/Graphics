@@ -7,6 +7,8 @@
 #include <string>
 #include <iostream>
 
+#include <time.h>
+
 #include "Images\Color.h"
 #include "Images\RGBImage.h"
 
@@ -33,13 +35,15 @@ GLuint indices[] = { // Note that we start from 0!
 	1, 2, 3 // Second Triangle
 };
 
+GLuint textCoord[] = {
+	1.0f,1.0f,
+	1.0f, 0.0f, 
+	0.0f, 0.0f, 
+	0.0f, 1.0f
+};
+
 int main()
 {
-	RGBImage image;
-	
-	image.loadFromDisk("Loading_Test/Images/DoorsMedieval.bmp");
-	image.saveToDisk("Loading_Test/Images/DoorsMedieval_write.bmp");
-	
 	//image.loadFromDisk("Loading_Test/Images/Test2.bmp");
 	//image.saveToDisk("Loading_Test/Images/Test_write2.bmp");
 
@@ -198,7 +202,7 @@ int main()
 		GLfloat redValue = (cos(timeValue) + 0.5);
 		GLint vertexColorLocation = glGetUniformLocation(shaderProgram, "uniColor");
 
-		//std::cout << "TimeValue: " << 1/delta << std::endl;
+		//std::cout << "Frames per Sec(FPS): " << 1/delta << std::endl;
 		//drawTriangle
 		glUseProgram(shaderProgram);
 
