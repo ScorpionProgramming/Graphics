@@ -9,6 +9,9 @@ public:
 	Noise();
 	//Generiert ein Noisebild von Width x Height 
 	Noise(int width, int height);
+
+	//hilfsmethode
+	void Interpolate(unsigned int xStart, unsigned int yStart, unsigned int width, unsigned int height);
 	~Noise();
 };
 
