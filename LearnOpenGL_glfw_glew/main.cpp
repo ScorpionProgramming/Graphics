@@ -44,11 +44,13 @@ GLuint textCoord[] = {
 
 int main()
 {
+
+	//RGBImage image = RGBImage();
 	//image.loadFromDisk("Loading_Test/Images/Test2.bmp");
 	//image.saveToDisk("Loading_Test/Images/Test_write2.bmp");
 
-	//image.loadFromDisk("Loading_Test/Images/WTF.bmp");
-	//image.saveToDisk("Loading_Test/Images/WTF_write.bmp");
+	//image.loadFromDisk("Loading_Test/Images/TestImage.bmp");
+	//image.saveToDisk("Loading_Test/Images/TestImage_write.bmp");
 
 	glfwInit();
 	//alle wichtigen optionen für GLEW
@@ -96,68 +98,6 @@ int main()
 	Shader shader = Shader("Shader/ShaderSource/shaderTest.vertex", "Shader/ShaderSource/shaderTest.fragment");
 
 	GLuint shaderProgram = shader.getProgram();
-
-	/*
-	#---------------------------------------Shader-BEGINN-------------------------------------------------------------------------------------------------------------------#
-	
-
-	//VERTEX_SHADER
-	//deklaration und initialisierung des shaders
-	GLuint vertexShader;
-	//welchen shader wollen wir COMPILIEREN (vertex shader)
-	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	//wo liegt der shader den wir kompilieren wollen
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-	//shader kompilieren
-	glCompileShader(vertexShader);
-	
-	//Prüfung ob die Compilation erfolgreich durchgelaufen ist.
-	GLint success;
-	GLchar infoLog[512];
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-
-	if (!success) {
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		std::cerr << "VERTEX_SHADER::COMPILATION::ERROR\n" << infoLog << std::endl;
-	}
-
-	//FRAGMENT_SHADER
-	GLuint fragmentShader;
-	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
-
-	//Prüfung ob compile erfolgreich
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-	if (!success) {
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		std::cerr << "FRAGMENT_SHADER::COMPILATION::ERROR\n" << infoLog << std::endl;
-	}
-
-	//SHADER Bauen
-	GLuint shaderProgram;
-	//gibt eine id von dem letzten erzeugten programm zurück
-	shaderProgram = glCreateProgram();
-	//shader ins programm laden
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	//und dann linken
-	glLinkProgram(shaderProgram);
-	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-	if (!success) {
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		std::cerr << "SHADER_PROGRAM::LINKING::FAILED::ERROR\n" << infoLog << std::endl;
-	}
-
-	//Shader löschen, weil sie nicht mehr benötigt werden!
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
-
-	
-	#---------------------------------------Shader-ENDE---------------------------------------------------------------------------------------------------------------------#
-	*/
-
-
 
 	//Buffer objekt erstellen
 	GLuint VBO, VAO, EBO;

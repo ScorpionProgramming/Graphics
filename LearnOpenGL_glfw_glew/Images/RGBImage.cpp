@@ -106,8 +106,10 @@ bool RGBImage::saveToDisk(const char * Filename)
 
 bool RGBImage::loadFromDisk(const char * Filename)
 {
-	//TODO Bumpmap Images Header Dateien ausgeben
+	
 	/*
+	TODO Bumpmap Images Header Dateien ausgeben
+
 	http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/
 
 	https://de.wikipedia.org/wiki/Windows_Bitmap
@@ -139,6 +141,13 @@ bool RGBImage::loadFromDisk(const char * Filename)
 	height = bfheader[22];
 	imageSize = bfheader[34];
 
+	//Falls es nicht korrekt geladen werden kann gibt es noch 'diese' möglichkeit
+	if (width <= 0 || height <= 0) {
+		dataPos		= *(int*)&bfheader[0x0A];
+		imageSize	= *(int*)&bfheader[0x22];
+		width		= *(int*)&bfheader[0x12];
+		height		= *(int*)&bfheader[0x16];
+	}
 	if (imageSize == 0) {
 		imageSize = width * height * 3; // 3 für jede pixelfarbe rot grün blau
 	}
