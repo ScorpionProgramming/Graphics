@@ -176,29 +176,26 @@ bool RGBImage::loadFromDisk(const char * Filename)
 		for (int y = 0; y < height; y++) {
 			//RGB farben
 			//Bild wird von "unten nach Oben" interpretiert
-			setPixelColor(x, y, //wenn man ohne -(y+1) dann steht Bild Kopf! 
+			setPixelColor(x, width - (y + 1), //ohne width-(y+1) steht es beim speichern auf dem Kopf und bei OpenGL nicht, und mit ist es genau umgekehrt
 				Color(convertColorChannel((int)rgbdata[(x + y*width) * 3 + 2]),
 					convertColorChannel((int)rgbdata[(x + y*width) * 3 + 1]),
 					convertColorChannel((int)rgbdata[(x + y*width) * 3 + 0])
 				));
-			
-			//[(x + y * width) * 3 + 0] = convertColorChannel(rgbdata[(x + y * width) * 3 + 0]);
-			//m_Image_r[(x + y * width) * 3 + 1] = convertColorChannel(rgbdata[(x + y * width) * 3 + 1]);
-			//m_Image_r[(x + y * width) * 3 + 2] = convertColorChannel(rgbdata[(x + y * width) * 3 + 2]);
 		}
 	}
 
-	for (int y = 0; y<height; y++)
-	{
+	//fill the data for the output to openGL shader image loader
 		for (int x = 0; x<width; x++)
 		{
+			for (int y = 0; y<height; y++)
+			{
 		Color c = this->m_Image[x + this->m_Width * y];
 
 		m_Image_r[(x + y*width) * 3 + 2] = this->convertColorChannel(c.B);
 		m_Image_r[(x + y*width) * 3 + 1] = this->convertColorChannel(c.G);
 		m_Image_r[(x + y*width) * 3 + 0] = this->convertColorChannel(c.R);
-		}
 	}
+}
 
 	//m_Image_r = rgbdata;
 
