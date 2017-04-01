@@ -15,6 +15,7 @@ RGBImage::RGBImage()
 RGBImage::~RGBImage()
 {
 	delete m_Image;
+	delete m_Image_r;
 }
 
 void RGBImage::setPixelColor(unsigned int x, unsigned int y, const Color & c)
@@ -37,6 +38,11 @@ unsigned int RGBImage::width() const
 unsigned int RGBImage::height() const
 {
 	return m_Height;
+}
+
+unsigned char* RGBImage::getCharImage()
+{
+	return m_Image_r;
 }
 
 unsigned char RGBImage::convertColorChannel(float f)
@@ -164,18 +170,38 @@ bool RGBImage::loadFromDisk(const char * Filename)
 	m_Width = width;
 	m_Height = height;
 	m_Image = new Color[width * height];
+	m_Image_r = new unsigned char[width * height * 3];
 	
 	for (int x = 0; x < width; x++) {
 		for (int y = 0; y < height; y++) {
 			//RGB farben
 			//Bild wird von "unten nach Oben" interpretiert
-			setPixelColor(x, height-(y+1), //wenn man ohne -(y+1) dann steht Bild Kopf! 
+			setPixelColor(x, y, //wenn man ohne -(y+1) dann steht Bild Kopf! 
 				Color(convertColorChannel((int)rgbdata[(x + y*width) * 3 + 2]),
-					  convertColorChannel((int)rgbdata[(x + y*width) * 3 + 1]),
-					  convertColorChannel((int)rgbdata[(x + y*width) * 3 + 0])
+					convertColorChannel((int)rgbdata[(x + y*width) * 3 + 1]),
+					convertColorChannel((int)rgbdata[(x + y*width) * 3 + 0])
 				));
+			
+			//[(x + y * width) * 3 + 0] = convertColorChannel(rgbdata[(x + y * width) * 3 + 0]);
+			//m_Image_r[(x + y * width) * 3 + 1] = convertColorChannel(rgbdata[(x + y * width) * 3 + 1]);
+			//m_Image_r[(x + y * width) * 3 + 2] = convertColorChannel(rgbdata[(x + y * width) * 3 + 2]);
 		}
 	}
+
+	for (int y = 0; y<height; y++)
+	{
+		for (int x = 0; x<width; x++)
+		{
+		Color c = this->m_Image[x + this->m_Width * y];
+
+		m_Image_r[(x + y*width) * 3 + 2] = this->convertColorChannel(c.B);
+		m_Image_r[(x + y*width) * 3 + 1] = this->convertColorChannel(c.G);
+		m_Image_r[(x + y*width) * 3 + 0] = this->convertColorChannel(c.R);
+		}
+	}
+
+	//m_Image_r = rgbdata;
+
 	fclose;
 	return true;
 }

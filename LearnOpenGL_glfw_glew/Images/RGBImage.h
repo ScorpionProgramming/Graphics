@@ -46,10 +46,12 @@ public:
 	bool loadFromDisk(const char* Filename);
 	unsigned int width() const;
 	unsigned int height() const;
+	unsigned char* getCharImage();
 
 	static unsigned char convertColorChannel(float f);
 protected:
 	Color* m_Image;
+	unsigned char* m_Image_r;
 	unsigned int m_Height;
 	unsigned int m_Width;
 };
