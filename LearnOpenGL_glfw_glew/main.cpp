@@ -62,15 +62,21 @@ GLuint indices[] = { // Note that we start from 0!
 int main()
 {
 	//loading textures
-	RGBImage wall = RGBImage();
+	//RGBImage wall = RGBImage();
 	RGBImage container = RGBImage();
 	RGBImage awesomeface = RGBImage();
-	wall.loadFromDisk("Loading_Test/Images/wall.bmp");
+	RGBImage plaster_XL = RGBImage();
+
+	//wall.loadFromDisk("Loading_Test/Images/wall.bmp");
 	container.loadFromDisk("Loading_Test/Images/container.bmp");
 	awesomeface.loadFromDisk("Loading_Test/Images/awesomeface.bmp");
+	plaster_XL.loadFromDisk("Loading_Test/Images/Plaster_XL.bmp");
+	//Plaster_XL.bmp
+
+
 	//wall.saveToDisk("Loading_Test/Images/wall_save.bmp");
 	//container.saveToDisk("Loading_Test/Images/container_save.bmp");
-	awesomeface.saveToDisk("Loading_Test/Images/awesomeface_save.bmp");
+	//plaster_XL.saveToDisk("Loading_Test/Images/Plaster_XL_save.bmp");
 	//---------------------------------------------------------------------------
 
 	glfwInit();
@@ -148,13 +154,16 @@ int main()
 	glBindVertexArray(0);
 	
 	//Textur erstellen
-	GLuint texture;
-	glGenTextures(1, &texture);
+	GLuint texture1;
+	GLuint texture2;
+	//--------------------------------------------------------------------------
+	// Fuer Textur1
+	//--------------------------------------------------------------------------
+	glGenTextures(1, &texture1);
 	//Textur an puffer binden
-	glBindTexture(GL_TEXTURE_2D, texture);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+	glBindTexture(GL_TEXTURE_2D, texture1);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	// Set texture filtering parameters
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -163,7 +172,25 @@ int main()
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, container.width(), container.height(), 0, GL_RGB, GL_UNSIGNED_BYTE, container.getCharImage()); //das image ist der char* im format BGRBGRBGR...
 
 	glGenerateMipmap(GL_TEXTURE_2D);
+	//unbind buffer
+	glBindTexture(GL_TEXTURE_2D, 0);
 
+	//--------------------------------------------------------------------------
+	// Fuer Textur1
+	//--------------------------------------------------------------------------
+	glGenTextures(1, &texture2);
+	//Textur an puffer binden
+	glBindTexture(GL_TEXTURE_2D, texture2);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	// Set texture filtering parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	//Textur generieren
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, awesomeface.width(), awesomeface.height(), 0, GL_RGB, GL_UNSIGNED_BYTE, awesomeface.getCharImage()); //das image ist der char* im format BGRBGRBGR...
+	
+	glGenerateMipmap(GL_TEXTURE_2D);
 	//unbind buffer
 	glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -179,18 +206,27 @@ int main()
 		glfwPollEvents();
 
 		//rendering commands hier
-		glClearColor(0.1f, 0.3f, 0.5f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClearColor(0.1f, 0.3f, 0.5f, 1.0f); //orginal
 
-		glBindTexture(GL_TEXTURE_2D, texture);
+
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		//GLfloat blueValue = (sin(timeValue) + 0.5);
 		//GLfloat redValue = (cos(timeValue) + 0.5);
 		//GLint vertexColorLocation = glGetUniformLocation(shaderProgram, "uniColor");
 
-		std::cout << "" << (int)(1/delta) <<" fps"<< std::endl;
+		//std::cout << "" << (int)(1/delta) <<" fps"<< std::endl;
 		//drawTriangle
 		shader.Use();
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture1);
+		glUniform1i(glGetUniformLocation(shader.getProgram(), "ourTexture1"), 0);
+
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, texture2);
+		glUniform1i(glGetUniformLocation(shader.getProgram(), "ourTexture2"), 1);
+
 
 		//glUniform4f(vertexColorLocation, redValue, 0.0f, blueValue, 1.0f);
 
