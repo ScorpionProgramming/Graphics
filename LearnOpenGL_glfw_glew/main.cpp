@@ -65,12 +65,12 @@ int main()
 	//RGBImage wall = RGBImage();
 	RGBImage container = RGBImage();
 	RGBImage awesomeface = RGBImage();
-	RGBImage plaster_XL = RGBImage();
+	//RGBImage plaster_XL = RGBImage();
 
 	//wall.loadFromDisk("Loading_Test/Images/wall.bmp");
 	container.loadFromDisk("Loading_Test/Images/container.bmp");
 	awesomeface.loadFromDisk("Loading_Test/Images/awesomeface.bmp");
-	plaster_XL.loadFromDisk("Loading_Test/Images/Plaster_XL.bmp");
+	//plaster_XL.loadFromDisk("Loading_Test/Images/Plaster_XL.bmp");
 	//Plaster_XL.bmp
 
 
@@ -114,6 +114,11 @@ int main()
 		std::cout << "Initialized GLEW succsessful!" << std::endl;
 	}
 	
+	Matrix4f mat = Matrix4f(1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4);
+
+	//mat.invert();
+	std::cout << "Determinante: " << mat.getDet() << std::endl;
+
 	//scene + viewport
 	int width, height;
 	glViewport(0, 0, 800, 600);

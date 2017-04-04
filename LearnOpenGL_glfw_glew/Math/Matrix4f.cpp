@@ -3,70 +3,194 @@
 
 Matrix4f::Matrix4f()
 {
-	this->a = 0; this->b = 0; this->c = 0; this->d = 0;
-	this->e = 0; this->f = 0; this->g = 0; this->h = 0;
-	this->i = 0; this->j = 0; this->k = 0; this->l = 0;
-	this->m = 0; this->n = 0; this->o = 0; this->p = 0;
+	this->data[0] = 0; this->data[1] = 0; this->data[2] = 0; this->data[3] = 0;
+	this->data[4] = 0; this->data[5] = 0; this->data[6] = 0; this->data[7] = 0;
+	this->data[8] = 0; this->data[9] = 0; this->data[10] = 0; this->data[11] = 0;
+	this->data[12] = 0; this->data[13] = 0; this->data[14] = 0; this->data[15] = 0;
 }
 
 Matrix4f::Matrix4f(float a, float b, float c, float d, float e, float f, float g, float h, float i, float j, float k, float l, float m, float n, float o, float p)
 {
-	this->a = a; this->b = b; this->c = c; this->d = d;
-	this->e = e; this->f = f; this->g = g; this->h = h;
-	this->i = i; this->j = j; this->k = k; this->l = l;
-	this->m = m; this->n = n; this->o = o; this->p = p;
+	this->data[0] = a; this->data[1] = b; this->data[2] = c; this->data[3] = d;
+	this->data[4] = e; this->data[5] = f; this->data[6] = g; this->data[7] = h;
+	this->data[8] = i; this->data[9] = j; this->data[10] = k; this->data[11] = l;
+	this->data[12] = m; this->data[13] = n; this->data[14] = o; this->data[15] = p;
 }
 
 void Matrix4f::operator=(const Matrix4f mat)
 {
-	this->a = mat.a; this->b = mat.b; this->c = mat.c; this->d = mat.d;
-	this->e = mat.e; this->f = mat.f; this->g = mat.g; this->h = mat.h;
-	this->i = mat.i; this->j = mat.j; this->k = mat.k; this->l = mat.l;
-	this->m = mat.m; this->n = mat.n; this->o = mat.o; this->p = mat.p;
+	for (int i = 0; i < 16; i++) {
+		this->data[i] = mat.data[i];
+	}
 }
+
+/*
+a b c d  |  0  1  2  3
+e f g h  |  4  5  6  7
+i j k l  |  8  9 10 11 
+m n o p  | 12 13 14 15 
+*/
 
 Matrix4f Matrix4f::operator*(const Matrix4f mat) const
 {
 	Matrix4f erg;
-	erg.a = this->a * mat.a + this->b * mat.e + this->c * mat.i + this->d * mat.m;
-	erg.b = this->a * mat.b + this->b * mat.f + this->c * mat.j + this->d * mat.n;
-	erg.c = this->a * mat.c + this->b * mat.g + this->c * mat.k + this->d * mat.o;
-	erg.d = this->a * mat.d + this->b * mat.h + this->c * mat.l + this->d * mat.p;
-
-	erg.e = this->e * mat.a + this->f * mat.e + this->g * mat.i + this->h * mat.m;
-	erg.f = this->e * mat.b + this->f * mat.f + this->g * mat.j + this->h * mat.n;
-	erg.g = this->e * mat.c + this->f * mat.g + this->g * mat.k + this->h * mat.o;
-	erg.h = this->e * mat.d + this->f * mat.h + this->g * mat.l + this->h * mat.p;
-
-	erg.i = this->i * mat.a + this->j * mat.e + this->k * mat.i + this->l * mat.m;
-	erg.j = this->i * mat.b + this->j * mat.f + this->k * mat.j + this->l * mat.n;
-	erg.k = this->i * mat.c + this->j * mat.g + this->k * mat.k + this->l * mat.o;
-	erg.l = this->i * mat.d + this->j * mat.h + this->k * mat.l + this->l * mat.p;
-
-	erg.m = this->m * mat.a + this->n * mat.e + this->o  * mat.i + this->p * mat.m;
-	erg.n = this->m * mat.b + this->n * mat.f + this->o  * mat.j + this->p * mat.n;
-	erg.o = this->m * mat.c + this->n * mat.g + this->o  * mat.k + this->p * mat.o;
-	erg.p = this->m * mat.d + this->n * mat.h + this->o  * mat.l + this->p * mat.p;
+	erg.data[0] = this->data[0] * mat.data[0] + this->data[1] * mat.data[4] + this->data[2] * mat.data[8] +	this->data[3] * mat.data[12];
+	erg.data[1] = this->data[0] * mat.data[1] + this->data[1] * mat.data[5] + this->data[2] * mat.data[9] +	this->data[3] * mat.data[13];
+	erg.data[2] = this->data[0] * mat.data[2] + this->data[1] * mat.data[6] + this->data[2] * mat.data[10] + this->data[3] * mat.data[14];
+	erg.data[3] = this->data[0] * mat.data[3] + this->data[1] * mat.data[7] + this->data[2] * mat.data[11] + this->data[3] * mat.data[15];
+	erg.data[4] = this->data[4] * mat.data[0] + this->data[5] * mat.data[4] + this->data[6] * mat.data[8] +	this->data[7] * mat.data[12];
+	erg.data[7] = this->data[4] * mat.data[3] + this->data[5] * mat.data[7] + this->data[6] * mat.data[11] + this->data[7] * mat.data[15];
+	erg.data[5] = this->data[4] * mat.data[1] + this->data[5] * mat.data[5] + this->data[6] * mat.data[9] +	this->data[7] * mat.data[13];
+	erg.data[6] = this->data[4] * mat.data[2] + this->data[5] * mat.data[6] + this->data[6] * mat.data[10] + this->data[7] * mat.data[14];
+	erg.data[8] = this->data[8] * mat.data[0] + this->data[9] * mat.data[4] + this->data[10] *mat.data[8] +	this->data[11] * mat.data[12];
+	erg.data[9] = this->data[8] * mat.data[1] + this->data[9] * mat.data[5] + this->data[10] * mat.data[9] + this->data[11] * mat.data[13];
+	erg.data[10] = this->data[8] * mat.data[2] + this->data[9] * mat.data[6] + this->data[10] * mat.data[10] + this->data[11] * mat.data[14];
+	erg.data[11] = this->data[8] * mat.data[3] + this->data[9] * mat.data[7] + this->data[10] * mat.data[11] + this->data[11] * mat.data[15];
+	erg.data[12] = this->data[12] * mat.data[0] + this->data[13] * mat.data[4] + this->data[14] * mat.data[8] + this->data[15] * mat.data[12];
+	erg.data[13] = this->data[12] * mat.data[1] + this->data[13] * mat.data[5] + this->data[14] * mat.data[9] + this->data[15] * mat.data[13];
+	erg.data[14] = this->data[12] * mat.data[2] + this->data[13] * mat.data[6] + this->data[14] * mat.data[10] + this->data[15] * mat.data[14];
+	erg.data[15] = this->data[12] * mat.data[3] + this->data[13] * mat.data[7] + this->data[14] * mat.data[11] + this->data[15] * mat.data[15];
 	return erg;
 }
 
 Vector4f Matrix4f::operator*(const Vector4f vec) const
 {
 	Vector4f erg;
-	erg.x = this->a * vec.x + this->b*vec.y + this->c * vec.z + this->d * vec.w;
-	erg.y = this->e * vec.x + this->f*vec.y + this->g * vec.z + this->h * vec.w;
-	erg.z = this->i * vec.x + this->j*vec.y + this->k * vec.z + this->l * vec.w;
-	erg.w = this->m * vec.x + this->n*vec.y + this->o * vec.z + this->p * vec.w;
+	erg.x = this->data[0] * vec.x + this->data[1] * vec.y + this->data[2] * vec.z + this->data[3] * vec.w;
+	erg.y = this->data[4] * vec.x + this->data[5] * vec.y + this->data[6] * vec.z + this->data[7] * vec.w;
+	erg.z = this->data[8] * vec.x + this->data[9] * vec.y + this->data[10] * vec.z + this->data[11] * vec.w;
+	erg.w = this->data[12] * vec.x + this->data[13] * vec.y + this->data[14] * vec.z + this->data[15] * vec.w;
 	return erg;
+}
+
+Matrix4f Matrix4f::operator*(float value) const {
+	Matrix4f mat;
+	for (int i = 0; i < sizeof(this->data) / sizeof(float); i++) {
+		mat.data[i] = (this->data[i] * value);
+	}
+	return mat;
+}
+
+void Matrix4f::rotate(float degree, float x, float y, float z)
+{
+}
+
+void Matrix4f::rotateX(float degree)
+{
+}
+
+void Matrix4f::rotateY(float degree)
+{
+}
+
+void Matrix4f::rotatez(float degree)
+{
+}
+
+float Matrix4f::det3x3(float a, float b, float c, float d, float e, float f, float g, float h, float i) {
+	float output = (a * e * i + b * f * g + c* d * h - c * e * g - b * d * i - a * f * h);
+	return output;
+}
+
+void Matrix4f::invert() {
+	(*this) = (*this) * (1 / getDet());
+}
+
+float Matrix4f::getDet() {
+	// http://matheguru.com/lineare-algebra/207-determinante.html
+	float erg = 0;
+	erg -= this->data[0] * this->det3x3(data[1 * 4 + 1], data[1 * 4 + 2], data[1 * 4 + 3],
+		data[2 * 4 + 1], data[2 * 4 + 2], data[2 * 4 + 3],
+		data[3 * 4 + 1], data[3 * 4 + 2], data[3 * 4 + 3]);
+
+	erg += this->data[1] * this->det3x3(data[1 * 4 + 0], data[1 * 4 + 2], data[1 * 4 + 3],
+		data[2 * 4 + 0], data[2 * 4 + 2], data[2 * 4 + 3],
+		data[3 * 4 + 0], data[3 * 4 + 2], data[3 * 4 + 3]);
+
+	erg -= this->data[3] * this->det3x3(data[1 * 4 + 0], data[1 * 4 + 1], data[1 * 4 + 3],
+		data[2 * 4 + 0], data[2 * 4 + 1], data[2 * 4 + 3],
+		data[3 * 4 + 0], data[3 * 4 + 1], data[3 * 4 + 3]);
+
+	erg += this->data[3] * this->det3x3(data[1 * 4 + 0], data[1 * 4 + 1], data[1 * 4 + 2],
+		data[2 * 4 + 0], data[2 * 4 + 1], data[2 * 4 + 2],
+		data[3 * 4 + 0], data[3 * 4 + 1], data[3 * 4 + 2]);
+
+	return erg;
+}
+
+
+void Matrix4f::scale(float x, float y, float z) {
+	Matrix4f ms;
+	ms.data[0] = x;
+	ms.data[5] = y;
+	ms.data[10] = z;
+	ms.data[15] = 1;
+
+	//skalier matrix
+	(*this) = ms * (*this);
+}
+
+void Matrix4f::scale(float xyz) {
+	this->scale(xyz, xyz, xyz);
+}
+
+void Matrix4f::lookAt(float x, float y, float z)
+{
+}
+
+//diagonale mit einsen und die letzt spalte von oben nach unten mit x y und z
+void Matrix4f::translate(float x, float y, float z) {
+	Matrix4f mt; //translatematrix
+
+	mt.data[0] = 1;
+	mt.data[5] = 1;
+	mt.data[10] = 1;
+	mt.data[15] = 1;
+	mt.data[3] = x;
+	mt.data[7] = y;
+	mt.data[11] = z;
+
+	(*this) = mt * (*this);
 }
 
 std::string Matrix4f::toString()
 {
 	std::stringstream ss;
 	ss << "4x4-Matrix: \n";
+	/*
 	ss << this->a << " " << this->b << " " << this->c << " " << this->d << "\n";
 	ss << this->e << " " << this->f << " " << this->g << " " << this->h << "\n";
 	ss << this->i << " " << this->j << " " << this->k << " " << this->l << "\n";
 	ss << this->m << " " << this->n << " " << this->o << " " << this->p << "\n";
 	return ss.str();
+	*/
+
+	for (int i = 0; i < 16; i++) {
+		if (i % 4 == 0) {
+			ss << "[\t";
+		}
+
+		ss << this->data[i] << "\t";
+
+		if (i % 4 == 3) {
+			ss << "]\n";
+		}
+	}
+	return ss.str();
+}
+
+std::ostream & operator<<(std::ostream &os, const Matrix4f & mat)
+{
+	for (int i = 0; i < 16; i++) {
+		if (i % 4 == 0) {
+			os << "[\t";
+		}
+
+		os << mat.data[i] << "\t";
+
+		if (i % 4 == 3) {
+			os << "]\n";
+		}
+	}
+	return os;
 }
