@@ -113,11 +113,6 @@ int main()
 	else {
 		std::cout << "Initialized GLEW succsessful!" << std::endl;
 	}
-	
-	Matrix4f mat = Matrix4f(1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4);
-
-	//mat.invert();
-	std::cout << "Determinante: " << mat.getDet() << std::endl;
 
 	//scene + viewport
 	int width, height;
@@ -127,6 +122,20 @@ int main()
 	std::cout << "Size: "<< width << " " << height << std::endl;
 
 	std::cout << "\n\n" << std::endl;
+
+	Matrix4f mat1 = Matrix4f(1, 2, 3, 4, 5, 6, 4, 4, 3, 2, 7, 4, 2, 2, 14, 3);
+	Matrix4f mat2 = Matrix4f(2, 2, 3, 4, 1, 2, 3, 4, 2, 2, 3, 4, 1, 2, 3, 4);
+	Matrix4f mat3 = Matrix4f(4, 2, 7, 4, 1, 2, 12, 4, 1, 2, 3, 2, 8, 3, 3, 4);
+	mat2 = mat2 * mat3;
+	std::cout << "Determinante: " << mat1.getDet() << std::endl;
+	std::cout << mat2 << std::endl;
+	mat2.translate(3.2, 1.0, 7.31);
+	std::cout << "Nach Translation:\n" << mat2 << std::endl;
+	mat2.scale(0.314);
+	std::cout << "Nach Skalierung:\n" << mat2 << std::endl;
+	std::cout << "Determinante:\n" << mat2.getDet() << std::endl;
+	mat2.identity();
+	std::cout << "Identity:\n" << mat2 << std::endl;
 
 	Shader shader = Shader("Shader/ShaderSource/shaderTest.vertex", "Shader/ShaderSource/shaderTest.fragment");
 	GLuint shaderProgram = shader.getProgram();
@@ -201,6 +210,7 @@ int main()
 
 
 	std::cout << " sizeof(vertices)/sizeof(GLfloat)/3 = " << sizeof(vertices) / sizeof(GLfloat) / 3 << std::endl;
+
 	//main loop (game loop)
 	GLfloat delta = 0;
 	while (!glfwWindowShouldClose(window))
@@ -231,7 +241,6 @@ int main()
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, texture2);
 		glUniform1i(glGetUniformLocation(shader.getProgram(), "ourTexture2"), 1);
-
 
 		//glUniform4f(vertexColorLocation, redValue, 0.0f, blueValue, 1.0f);
 

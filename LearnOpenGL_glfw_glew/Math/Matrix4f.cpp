@@ -3,6 +3,7 @@
 
 Matrix4f::Matrix4f()
 {
+	data = new float[16];
 	this->data[0] = 0; this->data[1] = 0; this->data[2] = 0; this->data[3] = 0;
 	this->data[4] = 0; this->data[5] = 0; this->data[6] = 0; this->data[7] = 0;
 	this->data[8] = 0; this->data[9] = 0; this->data[10] = 0; this->data[11] = 0;
@@ -11,6 +12,7 @@ Matrix4f::Matrix4f()
 
 Matrix4f::Matrix4f(float a, float b, float c, float d, float e, float f, float g, float h, float i, float j, float k, float l, float m, float n, float o, float p)
 {
+	data = new float[16];
 	this->data[0] = a; this->data[1] = b; this->data[2] = c; this->data[3] = d;
 	this->data[4] = e; this->data[5] = f; this->data[6] = g; this->data[7] = h;
 	this->data[8] = i; this->data[9] = j; this->data[10] = k; this->data[11] = l;
@@ -73,18 +75,53 @@ Matrix4f Matrix4f::operator*(float value) const {
 
 void Matrix4f::rotate(float degree, float x, float y, float z)
 {
+	// xx = 0 kann auskommentiert bzw geloescht werden
+	Matrix4f rot = Matrix4f();
+	rot.data[0] = cos(degree) + x * x  * (1 - cos(degree));
+	rot.data[1] = x * y * (1 - cos(degree)) - z * sin(degree);
+	rot.data[2] = x * z * (1 - cos(degree)) + y * sin(degree);
+	rot.data[3] = 0;
+	rot.data[4] = y*x * (1 - cos(degree)) + z * sin(degree);
+	rot.data[5] = cos(degree) + y*y*(1 - cos(degree));
+	rot.data[6] = y * z * (1 - cos(degree)) - x * sin(degree);
+	rot.data[7] = 0;
+	rot.data[8] = z * x * (1 - cos(degree)) - y * sin(degree);
+	rot.data[9] = z * y * (1 - cos(degree)) + x * sin(degree);
+	rot.data[10] = cos(degree) + z * z * (1 - cos(degree));
+	rot.data[11] = 0;
+	rot.data[12] = 0;
+	rot.data[13] = 0;
+	rot.data[14] = 0;
+	rot.data[15] = 1;
+
+	(*this) = rot * (*this);
 }
 
 void Matrix4f::rotateX(float degree)
 {
+	this->rotate(degree, 1, 0, 0);
 }
 
 void Matrix4f::rotateY(float degree)
 {
+	this->rotate(degree, 0, 1, 0);
 }
 
 void Matrix4f::rotatez(float degree)
 {
+	this->rotate(degree, 0, 0, 1);
+}
+
+void Matrix4f::identity()
+{
+	for (int i = 0; i < 16; i++) {
+		this->data[i] = 0;
+	}
+
+	this->data[0] = 1;
+	this->data[5] = 1;
+	this->data[10] = 1;
+	this->data[15] = 1;
 }
 
 float Matrix4f::det3x3(float a, float b, float c, float d, float e, float f, float g, float h, float i) {

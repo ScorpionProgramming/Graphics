@@ -22,7 +22,7 @@ class Matrix4f
 public:
 	//TODO: hinzufügen von  Einheitsmatrix, Skalierungsmatrix und Drehmatrix
 
-	float* data = new float[16];
+	float* data;
 	Matrix4f();
 	Matrix4f(	float a, float b, float c, float d,
 				float e, float f, float g, float h,
@@ -43,6 +43,8 @@ public:
 	void rotateX(float degree);
 	void rotateY(float degree);
 	void rotatez(float degree);
+
+	void identity();
 
 	//void lookAt(Vector3f target);
 	void lookAt(float x, float y, float z);
