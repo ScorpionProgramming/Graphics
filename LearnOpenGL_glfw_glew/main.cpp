@@ -25,40 +25,62 @@ int main();
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
 
+// Set up vertex data (and buffer(s)) and attribute pointers
 GLfloat vertices[] = {
-	0.5f, 0.5f, 0.0f, // Top Right
-	0.5f, -0.5f, 0.0f, // Bottom Right
-	-0.5f, -0.5f, 0.0f, // Bottom Left
-	-0.5f, 0.5f, 0.0f, // Top Left
-	//0.0f, 0.0f, 0.0f //mid
+	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+	0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+	0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+	0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 };
 
-GLfloat color[] = {
-	1.0f, 0.0f, 0.0f,
-	0.0f, 1.0f, 0.0f,
-	0.0f, 0.0f, 1.0f,
-	1.0f, 1.0f, 0.0f
-};
-
-//Texturkoordinaten
-GLuint textCoord[] = {
-	1.0f,1.0f,
-	1.0f, 0.0f, 
-	0.0f, 0.0f, 
-	0.0f, 1.0f
-};
-
-GLfloat verticesData[] = {
-	// Positions          // Colors           // Texture Coords
-	0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // Top Right
-	0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // Bottom Right
-	-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // Bottom Left
-	-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // Top Left 
-};
-
-GLuint indices[] = { // Note that we start from 0!
-	0, 1, 3, // First Triangle
-	1, 2, 3 // Second Triangle
+Vector3f cubePos[] = {
+	Vector3f(0.0f,  0.0f,  0.0f),
+	Vector3f(2.0f,  5.0f, -15.0f),
+	Vector3f(-1.5f, -2.2f, -2.5f),
+	Vector3f(-3.8f, -2.0f, -12.3f),
+	Vector3f(2.4f, -0.4f, -3.5f),
+	Vector3f(-1.7f,  3.0f, -7.5f),
+	Vector3f(1.3f, -2.0f, -2.5f),
+	Vector3f(1.5f,  2.0f, -2.5f),
+	Vector3f(1.5f,  0.2f, -1.5f),
+	Vector3f(-1.3f,  1.0f, -1.5f)
 };
 
 int main()
@@ -121,6 +143,9 @@ int main()
 	glViewport(0, 0, 800, 600);
 	glfwGetFramebufferSize(window, &width, &height);
 	glfwSwapInterval(0);
+
+	glEnable(GL_DEPTH_TEST);
+
 	std::cout << "Size: "<< width << " " << height << std::endl;
 
 	std::cout << "\n\n" << std::endl;
@@ -129,29 +154,22 @@ int main()
 	GLuint shaderProgram = shader.getProgram();
 
 	//Buffer objekt erstellen
-	GLuint VBO, VAO, EBO;
+	GLuint VBO, VAO;
 	//buffer generieren
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
 
 	//1. bind vertex array
 	glBindVertexArray(VAO);
 		//2. kopieren der verticies den vertex buffer
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(verticesData), verticesData, GL_STATIC_DRAW);
-		//2. kopieren der index daten in den element buffer
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 		// Position attribute
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)0);
 		glEnableVertexAttribArray(0);
-		// Color attribute
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-		glEnableVertexAttribArray(1);
 		// TexCoord attribute
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 		glEnableVertexAttribArray(2);
 	glBindVertexArray(0);
 	
@@ -178,7 +196,7 @@ int main()
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	//--------------------------------------------------------------------------
-	// Fuer Textur1
+	// Fuer Textur2
 	//--------------------------------------------------------------------------
 	glGenTextures(1, &texture2);
 	//Textur an puffer binden
@@ -197,7 +215,9 @@ int main()
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 
-	std::cout << " sizeof(vertices)/sizeof(GLfloat)/3 = " << sizeof(verticesData) / sizeof(GLfloat)/3 << std::endl;
+	std::cout << " sizeof(vertices)/sizeof(GLfloat)/3 = " << sizeof(vertices) / sizeof(GLfloat)/3 << std::endl;
+
+	std::cout << " sizeof(cubePos) / sizeof(Vector3f)" << sizeof(cubePos) / sizeof(Vector3f) << std::endl;
 
 	GLfloat delta = 0;
 	//main loop (game loop)
@@ -234,18 +254,19 @@ int main()
 		Matrix4f model;
 		model.identity();
 		//model.rotateX(-55);
-		model.rotate((GLfloat)glfwGetTime() * 55, 1.0f, 0.5f, 0.0f);
-		//model.rotate((GLfloat)glfwGetTime() * 55, 0.0f, 1.0f, 0.0f);
-		//model.rotate((GLfloat)glfwGetTime() * 55, 0.0f, 0.0f, 1.0f);
+		model.rotate((GLfloat)glfwGetTime() * 55, 1.0f, 0.0f, 0.0f);
+		model.rotate((GLfloat)glfwGetTime() * 55, 0.0f, 1.0f, 0.0f);
+		model.rotate((GLfloat)glfwGetTime() * 55, 0.0f, 0.0f, 1.0f);
 
 		//viewmatrix
 		Matrix4f view;
 		view.identity();
-		view.translate(0.0f, 0.0f, -3.0f);
+		view.translate(0.0f, 0.0f, -10.0f);
 		//projektionsmatrix
 		Matrix4f projection;
 		projection.identity();
 		projection.perspective(45.0f, 800 / 600, 0.1f, 100.0f);
+		//projection.orthograpic(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
 
 		GLint modelLocation = glGetUniformLocation(shader.getProgram(), "model");
 		GLint viewLocation = glGetUniformLocation(shader.getProgram(), "view");
@@ -257,7 +278,29 @@ int main()
 		glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, projection.data);
 
 		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+		//die einzelnen Wuerfel nacheinander zeichen
+		for (int i = 0; i < sizeof(cubePos) / sizeof(Vector3f); i++) {
+			Matrix4f model;
+			model.identity();
+			model.translate(cubePos[i]);
+			GLfloat angle = 10.0f * i;
+			model.rotateX(angle);
+			model.rotateY(angle);
+			model.rotateZ(angle);
+			if (i % 3 == 0) {
+				model.rotateX(angle * (GLfloat)glfwGetTime());
+				model.rotateY(angle * (GLfloat)glfwGetTime());
+				model.rotateZ(angle * (GLfloat)glfwGetTime());
+				
+			}
+
+			glUniformMatrix4fv(modelLocation, 1, GL_TRUE, model.data);
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+
+			std::cout << "Angle: " << angle << std::endl;
+		}
+
 		glBindVertexArray(0);
 		
 		//Swap buffers
@@ -268,7 +311,7 @@ int main()
 	// speicher für die vao und vbo und ebo wieder freigeben
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &EBO);
+
 	//GLEW Abbrechen, und alle reservierten Daten freigeben
 	glfwTerminate();
 	return 0;
