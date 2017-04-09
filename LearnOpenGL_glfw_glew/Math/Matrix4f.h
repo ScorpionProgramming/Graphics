@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 
+#define PI 3.14159265359
 /*
 	http://www.opengl-tutorial.org/beginners-tutorials/tutorial-3-matrices/
 
@@ -38,21 +39,33 @@ public:
 	Vector4f operator*(const Vector4f vec) const;
 
 	Matrix4f operator*(float value) const;
+	
+	void identity();
 
 	void rotate(float degree, float x, float y, float z);
+	void rotate(float degree, Vector3f vec);
 	void rotateX(float degree);
 	void rotateY(float degree);
-	void rotatez(float degree);
+	void rotateZ(float degree);
 
-	void identity();
+	void translate(float x, float y, float z);
+	void translate(Vector3f vec);
+
+	void scale(float x, float y, float z);
+	void scale(Vector3f vec);
+	void scale(float xyz);
+
+	/*
+	fov: field of view -> Sichtfeld, realistisch is 45 Grad.
+	radio: aspect radio -> Bildverhaeltnis, width / height
+	near und far sind die Flächen die den Sichtberech nah der Kamera und weit weg von der Kamera eingrenzen
+	*/
+	void perspective(float fov, float ratio, float near, float far);
+
+	void orthograpic(float left, float right, float buttom, float top, float near, float far);
 
 	//void lookAt(Vector3f target);
 	void lookAt(float x, float y, float z);
-
-	void translate(float x, float y, float z);
-
-	void scale(float x, float y, float z);
-	void scale(float xyz);
 
 	void invert();
 
@@ -65,6 +78,5 @@ public:
 
 private:
 	float det3x3(float a, float b, float c, float d, float e, float f, float g, float h, float i);  //Helperfunktion fuer die determinantenberechnung
-
 };
 

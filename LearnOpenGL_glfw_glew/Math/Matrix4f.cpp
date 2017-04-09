@@ -75,6 +75,8 @@ Matrix4f Matrix4f::operator*(float value) const {
 
 void Matrix4f::rotate(float degree, float x, float y, float z)
 {
+	//opengl nutzt radiance daher muessen wir die Grad umrechenen
+	degree = degree * (PI / 180.0f);
 	// xx = 0 kann auskommentiert bzw geloescht werden
 	Matrix4f rot = Matrix4f();
 	rot.data[0] = cos(degree) + x * x  * (1 - cos(degree));
@@ -97,6 +99,11 @@ void Matrix4f::rotate(float degree, float x, float y, float z)
 	(*this) = rot * (*this);
 }
 
+void Matrix4f::rotate(float degree, Vector3f vec)
+{
+	this->rotate(degree, vec.x, vec.y, vec.z);
+}
+
 void Matrix4f::rotateX(float degree)
 {
 	this->rotate(degree, 1, 0, 0);
@@ -107,9 +114,18 @@ void Matrix4f::rotateY(float degree)
 	this->rotate(degree, 0, 1, 0);
 }
 
-void Matrix4f::rotatez(float degree)
+void Matrix4f::rotateZ(float degree)
 {
-	this->rotate(degree, 0, 0, 1);
+	//this->rotate(degree, 0, 0, 1);
+	degree = degree * (PI / 180.0f);
+	Matrix4f mat;
+	mat.identity();
+	mat.data[0] = cos(degree);
+	mat.data[1] = -sin(degree);
+	mat.data[4] = sin(degree);
+	mat.data[5] = cos(degree);
+
+	(*this) = mat * (*this);
 }
 
 void Matrix4f::identity()
@@ -124,38 +140,112 @@ void Matrix4f::identity()
 	this->data[15] = 1;
 }
 
+void Matrix4f::perspective(float fov, float ratio, float near, float far)
+{
+	Matrix4f mat;
+
+	float fn = far - near;
+	float s = 1 / tan((fov/2)*(PI/180)); //scale
+
+	mat.data[0] = s;
+	mat.data[5] = s;
+	mat.data[10] = -(far / (fn));
+	mat.data[11] = -1;
+	mat.data[14] = -((far * near) / fn);
+
+	(*this) = mat * (*this);
+}
+
+void Matrix4f::orthograpic(float left, float right, float buttom, float top, float near, float far)
+{
+	Matrix4f mat;
+	float rl = right - left;
+	float tb = top - buttom;
+	float fn = far - near;
+
+	mat.data[0] = 2 / rl;
+	mat.data[3] = -((right + left) / rl);
+	mat.data[5] = 2 / tb;
+	mat.data[7] = -((top + buttom) / tb);
+	mat.data[10] = -2 / fn;
+	mat.data[11] = -((far + near) / fn);
+	mat.data[15] = 1;
+
+	(*this) = mat * (*this);
+}
+
 float Matrix4f::det3x3(float a, float b, float c, float d, float e, float f, float g, float h, float i) {
-	float output = (a * e * i + b * f * g + c* d * h - c * e * g - b * d * i - a * f * h);
+	//float output = (a * e * i + b * f * g + c* d * h - c * e * g - b * d * i - a * f * h);
+	float output = ((a * (e * i - f * h)) - (b * (d * i - f * g)) + (c * (d * h - e * g)));
 	return output;
 }
 
 void Matrix4f::invert() {
-	(*this) = (*this) * (1 / getDet());
+	Matrix4f mB = Matrix4f();
+	//(*this) = (*this) * (1 / this->getDet());
+
+	float* help = new float[9];
+	int swapper = 1;
+
+	for (int y = 0; y < 4; y++) {
+		for (int x = 0; x < 4; x++) {
+
+			int x_temp = 0, y_temp = 0;
+			bool x_bool = false, y_bool = false;
+
+
+			for (int by = 0; by < 3; by++) {
+				for (int bx = 0; bx < 3; bx++) {
+					x_temp = bx;
+					y_temp = by;
+					if (bx == x || x_bool == true) {
+						x_temp++;
+						x_bool = true;
+					}
+					if (by == y || y_bool == true) {
+						y_temp++;
+						y_bool = true;
+					}
+					help[bx + by * 3] = this->data[x_temp + y_temp * 4];
+
+				}
+			}
+
+			mB.data[x + y * 4] = det3x3(help[0], help[1], help[2],
+				help[3], help[4], help[5],
+				help[6], help[7], help[8]) * swapper;
+			swapper = swapper * (-1);
+		}
+		swapper = swapper * (-1);
+	}
+
+	(*this) = mB * (1 / this->getDet());
 }
+
 
 float Matrix4f::getDet() {
 	// http://matheguru.com/lineare-algebra/207-determinante.html
+
+	// http://www.cg.info.hiroshima-cu.ac.jp/~miyazaki/knowledge/teche23.html
 	float erg = 0;
-	erg -= this->data[0] * this->det3x3(data[1 * 4 + 1], data[1 * 4 + 2], data[1 * 4 + 3],
-		data[2 * 4 + 1], data[2 * 4 + 2], data[2 * 4 + 3],
-		data[3 * 4 + 1], data[3 * 4 + 2], data[3 * 4 + 3]);
+	erg += this->data[0] * this->det3x3(data[1 * 4 + 1], data[1 * 4 + 2], data[1 * 4 + 3],
+										data[2 * 4 + 1], data[2 * 4 + 2], data[2 * 4 + 3],
+										data[3 * 4 + 1], data[3 * 4 + 2], data[3 * 4 + 3]);
 
-	erg += this->data[1] * this->det3x3(data[1 * 4 + 0], data[1 * 4 + 2], data[1 * 4 + 3],
-		data[2 * 4 + 0], data[2 * 4 + 2], data[2 * 4 + 3],
-		data[3 * 4 + 0], data[3 * 4 + 2], data[3 * 4 + 3]);
+	erg += -this->data[1] * this->det3x3(data[1 * 4 + 0], data[1 * 4 + 2], data[1 * 4 + 3],
+										 data[2 * 4 + 0], data[2 * 4 + 2], data[2 * 4 + 3],
+										 data[3 * 4 + 0], data[3 * 4 + 2], data[3 * 4 + 3]);
 
-	erg -= this->data[3] * this->det3x3(data[1 * 4 + 0], data[1 * 4 + 1], data[1 * 4 + 3],
-		data[2 * 4 + 0], data[2 * 4 + 1], data[2 * 4 + 3],
-		data[3 * 4 + 0], data[3 * 4 + 1], data[3 * 4 + 3]);
+	erg += this->data[2] * this->det3x3(data[1 * 4 + 0], data[1 * 4 + 1], data[1 * 4 + 3],
+										data[2 * 4 + 0], data[2 * 4 + 1], data[2 * 4 + 3],
+										data[3 * 4 + 0], data[3 * 4 + 1], data[3 * 4 + 3]);
 
-	erg += this->data[3] * this->det3x3(data[1 * 4 + 0], data[1 * 4 + 1], data[1 * 4 + 2],
-		data[2 * 4 + 0], data[2 * 4 + 1], data[2 * 4 + 2],
-		data[3 * 4 + 0], data[3 * 4 + 1], data[3 * 4 + 2]);
+	erg += -this->data[3] * this->det3x3(data[1 * 4 + 0], data[1 * 4 + 1], data[1 * 4 + 2],
+										 data[2 * 4 + 0], data[2 * 4 + 1], data[2 * 4 + 2],
+										 data[3 * 4 + 0], data[3 * 4 + 1], data[3 * 4 + 2]);
 
 	return erg;
 }
-
-
 void Matrix4f::scale(float x, float y, float z) {
 	Matrix4f ms;
 	ms.data[0] = x;
@@ -165,6 +255,11 @@ void Matrix4f::scale(float x, float y, float z) {
 
 	//skalier matrix
 	(*this) = ms * (*this);
+}
+
+void Matrix4f::scale(Vector3f vec)
+{
+	this->scale(vec.x, vec.y, vec.z);
 }
 
 void Matrix4f::scale(float xyz) {
@@ -177,17 +272,19 @@ void Matrix4f::lookAt(float x, float y, float z)
 
 //diagonale mit einsen und die letzt spalte von oben nach unten mit x y und z
 void Matrix4f::translate(float x, float y, float z) {
-	Matrix4f mt; //translatematrix
+	Matrix4f mt = Matrix4f(); //translatematrix
+	mt.identity();
 
-	mt.data[0] = 1;
-	mt.data[5] = 1;
-	mt.data[10] = 1;
-	mt.data[15] = 1;
-	mt.data[3] = x;
-	mt.data[7] = y;
+	mt.data[3]  = x;
+	mt.data[7]  = y;
 	mt.data[11] = z;
 
 	(*this) = mt * (*this);
+}
+
+void Matrix4f::translate(Vector3f vec)
+{
+	this->translate(vec.x, vec.y, vec.z);
 }
 
 std::string Matrix4f::toString()

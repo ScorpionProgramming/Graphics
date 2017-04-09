@@ -19,6 +19,8 @@
 
 #include "Shader\Shader.h"
 
+int main();
+
 // Function prototypes
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
@@ -78,7 +80,7 @@ int main()
 	//container.saveToDisk("Loading_Test/Images/container_save.bmp");
 	//plaster_XL.saveToDisk("Loading_Test/Images/Plaster_XL_save.bmp");
 	//---------------------------------------------------------------------------
-
+	
 	glfwInit();
 	//alle wichtigen optionen für GLEW
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -123,20 +125,6 @@ int main()
 
 	std::cout << "\n\n" << std::endl;
 
-	Matrix4f mat1 = Matrix4f(1, 2, 3, 4, 5, 6, 4, 4, 3, 2, 7, 4, 2, 2, 14, 3);
-	Matrix4f mat2 = Matrix4f(2, 2, 3, 4, 1, 2, 3, 4, 2, 2, 3, 4, 1, 2, 3, 4);
-	Matrix4f mat3 = Matrix4f(4, 2, 7, 4, 1, 2, 12, 4, 1, 2, 3, 2, 8, 3, 3, 4);
-	mat2 = mat2 * mat3;
-	std::cout << "Determinante: " << mat1.getDet() << std::endl;
-	std::cout << mat2 << std::endl;
-	mat2.translate(3.2, 1.0, 7.31);
-	std::cout << "Nach Translation:\n" << mat2 << std::endl;
-	mat2.scale(0.314);
-	std::cout << "Nach Skalierung:\n" << mat2 << std::endl;
-	std::cout << "Determinante:\n" << mat2.getDet() << std::endl;
-	mat2.identity();
-	std::cout << "Identity:\n" << mat2 << std::endl;
-
 	Shader shader = Shader("Shader/ShaderSource/shaderTest.vertex", "Shader/ShaderSource/shaderTest.fragment");
 	GLuint shaderProgram = shader.getProgram();
 
@@ -149,7 +137,7 @@ int main()
 
 	//1. bind vertex array
 	glBindVertexArray(VAO);
-		//2. kopieren der verticiesin den vertex buffer
+		//2. kopieren der verticies den vertex buffer
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(verticesData), verticesData, GL_STATIC_DRAW);
 		//2. kopieren der index daten in den element buffer
@@ -209,10 +197,10 @@ int main()
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 
-	std::cout << " sizeof(vertices)/sizeof(GLfloat)/3 = " << sizeof(vertices) / sizeof(GLfloat) / 3 << std::endl;
+	std::cout << " sizeof(vertices)/sizeof(GLfloat)/3 = " << sizeof(verticesData) / sizeof(GLfloat)/3 << std::endl;
 
-	//main loop (game loop)
 	GLfloat delta = 0;
+	//main loop (game loop)
 	while (!glfwWindowShouldClose(window))
 	{
 		GLfloat timeValue = glfwGetTime();
@@ -231,8 +219,6 @@ int main()
 		//GLint vertexColorLocation = glGetUniformLocation(shaderProgram, "uniColor");
 
 		//std::cout << "" << (int)(1/delta) <<" fps"<< std::endl;
-		//drawTriangle
-		shader.Use();
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture1);
@@ -242,7 +228,33 @@ int main()
 		glBindTexture(GL_TEXTURE_2D, texture2);
 		glUniform1i(glGetUniformLocation(shader.getProgram(), "ourTexture2"), 1);
 
-		//glUniform4f(vertexColorLocation, redValue, 0.0f, blueValue, 1.0f);
+		shader.Use();
+		
+		//Modelmatrix
+		Matrix4f model;
+		model.identity();
+		//model.rotateX(-55);
+		model.rotate((GLfloat)glfwGetTime() * 55, 1.0f, 0.5f, 0.0f);
+		//model.rotate((GLfloat)glfwGetTime() * 55, 0.0f, 1.0f, 0.0f);
+		//model.rotate((GLfloat)glfwGetTime() * 55, 0.0f, 0.0f, 1.0f);
+
+		//viewmatrix
+		Matrix4f view;
+		view.identity();
+		view.translate(0.0f, 0.0f, -3.0f);
+		//projektionsmatrix
+		Matrix4f projection;
+		projection.identity();
+		projection.perspective(45.0f, 800 / 600, 0.1f, 100.0f);
+
+		GLint modelLocation = glGetUniformLocation(shader.getProgram(), "model");
+		GLint viewLocation = glGetUniformLocation(shader.getProgram(), "view");
+		GLint projectionLocation = glGetUniformLocation(shader.getProgram(), "projection");
+
+		glUniformMatrix4fv(modelLocation, 1, GL_TRUE, model.data);
+		glUniformMatrix4fv(viewLocation, 1, GL_TRUE, view.data);
+		// Note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
+		glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, projection.data);
 
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
