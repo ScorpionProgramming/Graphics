@@ -49,6 +49,10 @@ public:
 	unsigned char* getCharImage();
 
 	static unsigned char convertColorChannel(float f);
+
+	void col2grey();
+	void col2grey(float weightR, float weightG, float weightB);
+
 protected:
 	Color* m_Image;
 	unsigned char* m_Image_r;

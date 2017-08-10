@@ -3,20 +3,29 @@
 
 Matrix4f::Matrix4f()
 {
-	data = new float[16];
 	this->data[0] = 0; this->data[1] = 0; this->data[2] = 0; this->data[3] = 0;
 	this->data[4] = 0; this->data[5] = 0; this->data[6] = 0; this->data[7] = 0;
 	this->data[8] = 0; this->data[9] = 0; this->data[10] = 0; this->data[11] = 0;
 	this->data[12] = 0; this->data[13] = 0; this->data[14] = 0; this->data[15] = 0;
 }
 
-Matrix4f::Matrix4f(float a, float b, float c, float d, float e, float f, float g, float h, float i, float j, float k, float l, float m, float n, float o, float p)
+/*Matrix4f::Matrix4f(float a, float b, float c, float d, float e, float f, float g, float h, float i, float j, float k, float l, float m, float n, float o, float p)
 {
-	data = new float[16];
 	this->data[0] = a; this->data[1] = b; this->data[2] = c; this->data[3] = d;
 	this->data[4] = e; this->data[5] = f; this->data[6] = g; this->data[7] = h;
 	this->data[8] = i; this->data[9] = j; this->data[10] = k; this->data[11] = l;
 	this->data[12] = m; this->data[13] = n; this->data[14] = o; this->data[15] = p;
+}*/
+
+Matrix4f::Matrix4f(float a, float b, float c, float d, float e, float f, float g, float h, float i, float j, float k, float l, float m, float n, float o, float p)
+{
+	this->data[0] = a; this->data[1] = e; this->data[2] = i; this->data[3] = m;
+	this->data[4] = b; this->data[5] = f; this->data[6] = j; this->data[7] = n;
+	this->data[8] = c; this->data[9] = g; this->data[10] = k; this->data[11] = o;
+	this->data[12] = d; this->data[13] = h; this->data[14] = l; this->data[15] = p;
+}
+
+Matrix4f::~Matrix4f() {
 }
 
 void Matrix4f::operator=(const Matrix4f mat)
@@ -218,7 +227,7 @@ void Matrix4f::invert() {
 		}
 		swapper = swapper * (-1);
 	}
-
+	delete[] help;
 	(*this) = mB * (1 / this->getDet());
 }
 

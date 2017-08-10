@@ -203,3 +203,19 @@ bool RGBImage::loadFromDisk(const char * Filename)
 	return true;
 }
 
+void RGBImage::col2grey()
+{
+	col2grey(0.3333, 0.3333, 0.3333);
+}
+
+void RGBImage::col2grey(float weightR, float weightG, float weightB)
+{
+	float erg = 0;
+	for (size_t i = 0; i < m_Height * m_Height; i++)
+	{
+		erg = ( m_Image[i].R + m_Image[i].G + m_Image[i].B ) / 3;
+		m_Image[i].R = erg;
+		m_Image[i].G = erg;
+		m_Image[i].B = erg;
+	}
+}

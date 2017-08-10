@@ -97,6 +97,12 @@ int main()
 	//plaster_XL.loadFromDisk("Loading_Test/Images/Plaster_XL.bmp");
 	//Plaster_XL.bmp
 
+	RGBImage testImage = RGBImage();
+	testImage.loadFromDisk("Loading_Test/Images/TestImage.bmp");
+	testImage.col2grey();
+
+	testImage.saveToDisk("Loading_Test/Images/TestImage_save.bmp");
+	
 
 	//wall.saveToDisk("Loading_Test/Images/wall_save.bmp");
 	//container.saveToDisk("Loading_Test/Images/container_save.bmp");
@@ -221,6 +227,9 @@ int main()
 
 	GLfloat delta = 0;
 	//main loop (game loop)
+	Matrix4f* model = new Matrix4f();
+	Matrix4f* view = new Matrix4f();
+	Matrix4f* projection = new Matrix4f();
 	while (!glfwWindowShouldClose(window))
 	{
 		GLfloat timeValue = glfwGetTime();
@@ -251,62 +260,61 @@ int main()
 		shader.Use();
 		
 		//Modelmatrix
-		Matrix4f model;
-		model.identity();
+		//Matrix4f model;
+		model->identity();
 		//model.rotateX(-55);
-		model.rotate((GLfloat)glfwGetTime() * 55, 1.0f, 0.0f, 0.0f);
-		model.rotate((GLfloat)glfwGetTime() * 55, 0.0f, 1.0f, 0.0f);
-		model.rotate((GLfloat)glfwGetTime() * 55, 0.0f, 0.0f, 1.0f);
+		model->rotate((GLfloat)glfwGetTime() * 55, 1.0f, 0.0f, 0.0f);
+		model->rotate((GLfloat)glfwGetTime() * 55, 0.0f, 1.0f, 0.0f);
+		model->rotate((GLfloat)glfwGetTime() * 55, 0.0f, 0.0f, 1.0f);
 
 		//viewmatrix
-		Matrix4f view;
-		view.identity();
-		view.translate(0.0f, 0.0f, -10.0f);
+		//Matrix4f view;
+		view->identity();
+		view->translate(0.0f, 0.0f, -10.0f);
 		//projektionsmatrix
-		Matrix4f projection;
-		projection.identity();
-		projection.perspective(45.0f, 800 / 600, 0.1f, 100.0f);
+		//Matrix4f projection;
+		projection->identity();
+		projection->perspective(45.0f, 800 / 600, 0.1f, 100.0f);
 		//projection.orthograpic(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
 
 		GLint modelLocation = glGetUniformLocation(shader.getProgram(), "model");
 		GLint viewLocation = glGetUniformLocation(shader.getProgram(), "view");
 		GLint projectionLocation = glGetUniformLocation(shader.getProgram(), "projection");
 
-		glUniformMatrix4fv(modelLocation, 1, GL_TRUE, model.data);
-		glUniformMatrix4fv(viewLocation, 1, GL_TRUE, view.data);
+		glUniformMatrix4fv(modelLocation, 1, GL_TRUE, model->data);
+		glUniformMatrix4fv(viewLocation, 1, GL_TRUE, view->data);
 		// Note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
-		glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, projection.data);
+		glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, projection->data);
 
 		glBindVertexArray(VAO);
 
 		//die einzelnen Wuerfel nacheinander zeichen
 		for (int i = 0; i < sizeof(cubePos) / sizeof(Vector3f); i++) {
-			Matrix4f model;
-			model.identity();
-			model.translate(cubePos[i]);
-			GLfloat angle = 10.0f * i;
-			model.rotateX(angle);
-			model.rotateY(angle);
-			model.rotateZ(angle);
-			if (i % 3 == 0) {
-				model.rotateX(angle * (GLfloat)glfwGetTime());
-				model.rotateY(angle * (GLfloat)glfwGetTime());
-				model.rotateZ(angle * (GLfloat)glfwGetTime());
+		//	Matrix4f model;
+			model->identity();
+			model->translate(cubePos[i]);
+			GLfloat angle = 5.0f * i;
+			model->rotateX(angle);
+			model->rotateY(angle);
+			model->rotateZ(angle);
+			//if (i % 3 == 0) {
+				model->rotateX(angle * (GLfloat)glfwGetTime());
+				model->rotateY(angle * (GLfloat)glfwGetTime());
+				model->rotateZ(angle * (GLfloat)glfwGetTime());
 				
-			}
+			//}
 
-			glUniformMatrix4fv(modelLocation, 1, GL_TRUE, model.data);
+			glUniformMatrix4fv(modelLocation, 1, GL_TRUE, model->data);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 
-			std::cout << "Angle: " << angle << std::endl;
 		}
 
 		glBindVertexArray(0);
 		
 		//Swap buffers
 		glfwSwapBuffers(window);
-
 		delta = glfwGetTime() - currTime;
+		std::cout << 1 / delta << " fps" << std::endl;
 	}
 	// speicher für die vao und vbo und ebo wieder freigeben
 	glDeleteVertexArrays(1, &VAO);

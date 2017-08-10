@@ -23,12 +23,17 @@ class Matrix4f
 public:
 	//TODO: hinzufügen von  Einheitsmatrix, Skalierungsmatrix und Drehmatrix
 
-	float* data;
+	float data[16];
 	Matrix4f();
 	Matrix4f(	float a, float b, float c, float d,
 				float e, float f, float g, float h,
 				float i, float j, float k, float l,
 				float m, float n, float o, float p	);
+	/*Matrix4f(	float a, float e, float i, float m,
+				float b, float f, float j, float n,
+				float c, float g, float k, float o,
+				float d, float h, float l, float p);*/
+	~Matrix4f();
 
 	/*Muss eventuell wieder rausgepatched werden*/
 	void operator=(const Matrix4f mat);
