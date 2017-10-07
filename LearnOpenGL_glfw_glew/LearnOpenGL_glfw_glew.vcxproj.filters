@@ -15,16 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="Images\Color.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Images\RGBImage.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Vector3f.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Vector4f.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Math\Matrix4f.cpp">
@@ -33,10 +27,16 @@
     <ClCompile Include="Math\Vector2f.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="Images\Color.cpp">
+    <ClCompile Include="Math\Vector3f.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Vector4f.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Shader\Shader.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,16 +47,16 @@
     <ClInclude Include="Images\RGBImage.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="Math\Vector3f.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Vector4f.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="Math\Matrix4f.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Math\Vector2f.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vector3f.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vector4f.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Shader\Shader.h">
@@ -64,7 +64,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shader\ShaderSource\shaderTest.vertex" />
     <None Include="Shader\ShaderSource\shaderTest.fragment" />
+    <None Include="Shader\ShaderSource\shaderTest.vertex" />
   </ItemGroup>
 </Project>

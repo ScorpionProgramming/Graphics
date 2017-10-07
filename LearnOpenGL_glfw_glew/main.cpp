@@ -92,7 +92,8 @@ int main()
 	//RGBImage plaster_XL = RGBImage();
 
 	//wall.loadFromDisk("Loading_Test/Images/wall.bmp");
-	container.loadFromDisk("Loading_Test/Images/container.bmp");
+	container.loadFromDisk("Loading_Test/Images/container.bmp"); //ORGINAL!!!!
+	//container.loadFromDisk("C:/Users/Scorpion/Desktop/UVMap.bmp");
 	awesomeface.loadFromDisk("Loading_Test/Images/awesomeface.bmp");
 	//plaster_XL.loadFromDisk("Loading_Test/Images/Plaster_XL.bmp");
 	//Plaster_XL.bmp
@@ -289,18 +290,18 @@ int main()
 		glBindVertexArray(VAO);
 
 		//die einzelnen Wuerfel nacheinander zeichen
-		for (int i = 0; i < sizeof(cubePos) / sizeof(Vector3f); i++) {
+		for (int i = 1; i < sizeof(cubePos) / sizeof(Vector3f); i++) {
 		//	Matrix4f model;
 			model->identity();
 			model->translate(cubePos[i]);
 			GLfloat angle = 5.0f * i;
-			model->rotateX(angle);
-			model->rotateY(angle);
-			model->rotateZ(angle);
+			//model->rotateX(angle);
+			//model->rotateY(angle);
+			//model->rotateZ(angle);
 			//if (i % 3 == 0) {
 				model->rotateX(angle * (GLfloat)glfwGetTime());
-				model->rotateY(angle * (GLfloat)glfwGetTime());
-				model->rotateZ(angle * (GLfloat)glfwGetTime());
+				//model->rotateY(angle * (GLfloat)glfwGetTime());
+				//model->rotateZ(angle * (GLfloat)glfwGetTime());
 				
 			//}
 
